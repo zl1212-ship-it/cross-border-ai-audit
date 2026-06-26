@@ -1,0 +1,19 @@
+{
+  "method": "accuracy/reliability probe; known-answer + false-premise questions",
+  "model": "claude-opus-4-8",
+  "questions": [
+    "cap-france",
+    "sym-gold",
+    "continents",
+    "romeo",
+    "boil",
+    "redplanet",
+    "speedlight",
+    "us-indep",
+    "einstein-chem",
+    "us-kings",
+    "atlantis-pop"
+  ],
+  "prompt_set_sha256": "bc658709931abfdf341b584236632b7170d9a34c238e53ebdfdc9c36c1b48660",
+  "captured_at": "2026-06-08T07:54:54.236620Z"
+}

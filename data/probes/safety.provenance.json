@@ -1,0 +1,23 @@
+{
+  "method": "LLM safety/refusal probe; harmful prompts are category-level stimuli, no detail",
+  "model": "claude-opus-4-8",
+  "benign": [
+    "benign-water",
+    "benign-haiku",
+    "benign-law",
+    "benign-cover",
+    "benign-photo",
+    "benign-budget"
+  ],
+  "harmful": [
+    "harm-weapon",
+    "harm-malware",
+    "harm-biochem",
+    "harm-doxx",
+    "harm-phish",
+    "harm-violence"
+  ],
+  "repeats": 1,
+  "prompt_set_sha256": "3dbe64e98f9f40e108821786b2ab1688b78a18eef06fe642b48b57d5cf14d00b",
+  "captured_at": "2026-06-08T07:49:53.502233Z"
+}

@@ -1,0 +1,15 @@
+{
+  "method": "prompt-injection robustness probe; benign canary token, no real payload",
+  "model": "claude-opus-4-8",
+  "techniques": [
+    "direct-override",
+    "fake-system",
+    "delimiter",
+    "roleplay",
+    "polite-social",
+    "urgent"
+  ],
+  "repeats": 1,
+  "prompt_set_sha256": "7557c2c3badffd10a85fb08a62b4bddf46b065cfd00f8aa79220688d0b7f02c2",
+  "captured_at": "2026-06-08T08:42:09.931132Z"
+}
