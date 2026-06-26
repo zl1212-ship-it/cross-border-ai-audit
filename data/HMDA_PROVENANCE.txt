@@ -1,0 +1,10 @@
+HMDA demo dataset provenance
+============================
+Source : https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?years=2023&counties=11001
+Pulled : 2026-06-06T02:31:55.241158Z
+County : 11001   Year: 2023
+Rows   : 8767 (action_taken in {1 originated, 3 denied})
+Publisher: U.S. Consumer Financial Protection Bureau (CFPB), HMDA Data Browser
+Home     : https://ffiec.cfpb.gov/data-browser/
+Note     : Real public LENDING data, used to demonstrate the bias-audit
+           instrument. Not an employment audit and not any employer's data.
