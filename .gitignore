@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.DS_Store
+compliance_report.json
+
+# Private signing key for the attestation layer -- NEVER commit this.
+# The public key (data/attestation_pubkey.hex) and ledger ARE committed.
+data/attestation_key.pem
+
+# Never commit secrets or local source stashes.
+API Key.pdf
+*api*key*.pdf
+rules/

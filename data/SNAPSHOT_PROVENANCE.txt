@@ -1,0 +1,12 @@
+AI Incident Database snapshot provenance
+========================================
+Source backup : https://pub-72b2b2fc36ec423189843747af98f80e.r2.dev/backup-20260601120109.tar.bz2
+Snapshot date : 2026-06-01 (weekly public AIID backup)
+Extracted file: mongodump_full_snapshot/incidents.csv
+Incident rows : 1501
+Project       : AI Incident Database, Responsible AI Collaborative
+Home          : https://incidentdatabase.ai/
+Snapshots page: https://incidentdatabase.ai/research/snapshots/
+Licence       : CC BY-SA
+
+Refresh with:  python fetch_incidents.py <latest-backup-url-from-snapshots-page>

@@ -1,0 +1,318 @@
+{
+  "schema_version": "1.1",
+  "maintained_note": "Interpretation/trigger logic is hand-maintained by the project. Source URLs are auto-verified by verify_sources.py (see data/source_status.json). This file is the single editable source of truth for obligations; no code change is needed to update a rule.",
+  "last_reviewed": "2026-06-05",
+  "obligations": [
+    {
+      "id": "eu-aiact-art5-prohibited",
+      "jurisdiction": "EU",
+      "regime": "EU AI Act -- Prohibited practices (Article 5)",
+      "citation": "Regulation (EU) 2024/1689, Art. 5",
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+      "effective_date": "2025-02-02",
+      "effective_date_note": "Art. 5 prohibitions apply from 2 Feb 2025 (6 months after the 1 Aug 2024 entry into force).",
+      "risk_tier": "Prohibited",
+      "requirements": [
+        "Emotion recognition in the workplace or education settings is prohibited (Art. 5(1)(f)).",
+        "Untargeted scraping of facial images to build recognition databases is prohibited (Art. 5(1)(e)).",
+        "Social scoring of natural persons by public or private actors is prohibited (Art. 5(1)(c)).",
+        "If any prohibited practice is present, the system cannot be placed on the EU market."
+      ],
+      "penalty": "Up to EUR 35,000,000 or 7% of total worldwide annual turnover, whichever is higher (Art. 99).",
+      "applies": {
+        "jurisdiction": "EU",
+        "all": [
+          {
+            "use": "biometric"
+          }
+        ]
+      }
+    },
+    {
+      "id": "eu-aiact-art6-highrisk",
+      "jurisdiction": "EU",
+      "regime": "EU AI Act -- High-risk system (Article 6, Annex III)",
+      "citation": "Regulation (EU) 2024/1689, Art. 6 and Annex III",
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+      "effective_date": "2026-08-02",
+      "effective_date_note": "Annex III high-risk obligations apply from 2 Aug 2026 (24 months after entry into force); Annex I from 2 Aug 2027.",
+      "risk_tier": "High-risk",
+      "requirements": [
+        "Establish and maintain a risk-management system (Art. 9).",
+        "Data governance: relevant, representative, error-checked training/validation data (Art. 10).",
+        "Technical documentation and automatic logging/record-keeping (Arts. 11-12).",
+        "Transparency and instructions for use to deployers (Art. 13).",
+        "Effective human oversight by design (Art. 14).",
+        "Accuracy, robustness and cybersecurity (Art. 15).",
+        "Conformity assessment, CE marking, and registration in the EU database before market placement."
+      ],
+      "penalty": "Up to EUR 15,000,000 or 3% of total worldwide annual turnover (Art. 99).",
+      "applies": {
+        "jurisdiction": "EU",
+        "any": [
+          {
+            "use": "employment"
+          },
+          {
+            "use": "education"
+          },
+          {
+            "use": "credit_or_essential_services"
+          },
+          {
+            "use": "biometric"
+          },
+          {
+            "use": "law_enforcement_or_justice"
+          },
+          {
+            "use": "critical_infrastructure"
+          }
+        ]
+      }
+    },
+    {
+      "id": "eu-aiact-art50-transparency",
+      "jurisdiction": "EU",
+      "regime": "EU AI Act -- Transparency obligations (Article 50)",
+      "citation": "Regulation (EU) 2024/1689, Art. 50",
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+      "effective_date": "2026-08-02",
+      "effective_date_note": "Art. 50 transparency duties apply from 2 Aug 2026 (24 months after entry into force).",
+      "risk_tier": "Limited risk (transparency)",
+      "requirements": [
+        "Inform natural persons that they are interacting with an AI system, unless obvious (Art. 50(1)).",
+        "Mark AI-generated or manipulated audio, image, video or text as artificially generated, in a machine-readable way (Art. 50(2), 50(4)).",
+        "Disclose deep-fake content as artificially generated or manipulated."
+      ],
+      "penalty": "Up to EUR 15,000,000 or 3% of worldwide annual turnover (Art. 99).",
+      "applies": {
+        "jurisdiction": "EU",
+        "any": [
+          {
+            "flag": "is_generative"
+          },
+          {
+            "flag": "interacts_with_humans"
+          }
+        ]
+      }
+    },
+    {
+      "id": "eu-aiact-gpai",
+      "jurisdiction": "EU",
+      "regime": "EU AI Act -- General-purpose AI models (Chapter V)",
+      "citation": "Regulation (EU) 2024/1689, Arts. 51-55",
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+      "effective_date": "2025-08-02",
+      "effective_date_note": "GPAI obligations (Arts. 51-55) apply from 2 Aug 2025 (12 months after entry into force).",
+      "risk_tier": "GPAI",
+      "requirements": [
+        "Maintain technical documentation and a summary of training content (Art. 53).",
+        "Put in place a policy to comply with EU copyright law (Art. 53).",
+        "Models with systemic risk (training compute > 10^25 FLOP) face additional evaluation, adversarial testing, incident reporting and cybersecurity duties (Art. 55)."
+      ],
+      "penalty": "Up to EUR 15,000,000 or 3% of worldwide annual turnover (Art. 101 for GPAI providers).",
+      "applies": {
+        "jurisdiction": "EU",
+        "all": [
+          {
+            "flag": "is_generative"
+          }
+        ]
+      }
+    },
+    {
+      "id": "us-nyc-ll144",
+      "jurisdiction": "US-NYC",
+      "regime": "NYC Local Law 144 -- Automated Employment Decision Tools",
+      "citation": "NYC Local Law 144 of 2021; 6 RCNY Sec. 5-300 et seq. (DCWP Final Rule)",
+      "source_url": "https://www.nyc.gov/site/dca/about/automated-employment-decision-tools.page",
+      "effective_date": "2023-07-05",
+      "effective_date_note": "DCWP began enforcement of Local Law 144 on 5 Jul 2023.",
+      "risk_tier": "Mandatory bias audit",
+      "requirements": [
+        "Commission an INDEPENDENT bias audit by an independent auditor no more than one year before using the tool (Local Law 144 Sec. 20-871(a)(1)).",
+        "The audit must compute the selection or scoring rate and the impact ratio across sex categories, race/ethnicity categories, AND intersectional sex x race/ethnicity categories; a category under 2% of the data may be excluded (DCWP Final Rule).",
+        "Use the AEDT's own historical use data; imputed or inferred demographic data may NOT be used (test data only where historical data is insufficient).",
+        "Publicly post, before use, a summary of the most recent bias audit including the audit date, the source/explanation of the data, the count of individuals in the unknown category, and the rates and impact ratios for all categories, plus the tool's distribution date (Sec. 20-871(a)(2)).",
+        "Notify each NYC-resident candidate/employee at least 10 business days before use, allow a request for an alternative selection process or accommodation, disclose the job qualifications the tool assesses, and on request disclose the data type/source/retention policy (Sec. 20-871(b))."
+      ],
+      "penalty": "Civil penalty up to USD 500 for a first violation (and each additional violation the same day), and USD 500-1,500 for each subsequent violation. Each day of AEDT use, and each failure to give a required notice, is a separate violation (Local Law 144 Sec. 20-872).",
+      "applies": {
+        "jurisdiction": "US-NYC",
+        "all": [
+          {
+            "use": "employment"
+          }
+        ]
+      }
+    },
+    {
+      "id": "us-co-sb24-205",
+      "jurisdiction": "US-CO",
+      "regime": "Colorado AI Act (SB 24-205) -- High-risk AI systems",
+      "citation": "Colorado AI Act, Colo. Rev. Stat. Sec. 6-1-1701 et seq. (SB 24-205, 2024). EFFECTIVE-DATE MOVING TARGET: compliance start postponed from 1 Feb 2026 to 30 Jun 2026 by SB 25B-004 (Aug 2025); framework substantially revised by SB 26-189 (signed 14 May 2026, effective 1 Jan 2027). Confirm which regime governs your compliance date.",
+      "source_url": "https://leg.colorado.gov/bills/sb24-205",
+      "effective_date": "2026-06-30",
+      "effective_date_note": "MOVING TARGET: compliance start postponed from 1 Feb 2026 to 30 Jun 2026 by SB 25B-004 (Aug 2025); SB 26-189 (eff. 1 Jan 2027) substantially revises the framework.",
+      "risk_tier": "High-risk (consequential decision)",
+      "requirements": [
+        "Developers and deployers must use reasonable care to avoid algorithmic discrimination in high-risk systems making (or being a substantial factor in) consequential decisions.",
+        "Deployers must implement a risk-management policy and program, complete an impact assessment, and conduct an annual review for algorithmic discrimination.",
+        "Notify consumers when a high-risk system makes, or is a substantial factor in, a consequential decision, with an explanation; allow correction of personal data and appeal via human review where technically feasible.",
+        "Disclose to consumers when they are interacting with an AI system, unless it would be obvious to a reasonable person.",
+        "Report discovered algorithmic discrimination to the Colorado Attorney General within 90 days of discovery."
+      ],
+      "penalty": "Enforced EXCLUSIVELY by the Colorado Attorney General as a deceptive trade practice under the Colorado Consumer Protection Act; no private right of action.",
+      "applies": {
+        "jurisdiction": "US-CO",
+        "all": [
+          {
+            "flag": "makes_consequential_decisions"
+          }
+        ],
+        "any": [
+          {
+            "use": "employment"
+          },
+          {
+            "use": "education"
+          },
+          {
+            "use": "credit_or_essential_services"
+          },
+          {
+            "use": "healthcare"
+          }
+        ]
+      }
+    },
+    {
+      "id": "us-federal-nist-rmf",
+      "jurisdiction": "US-federal",
+      "regime": "NIST AI Risk Management Framework (voluntary)",
+      "citation": "NIST AI RMF 1.0 (AI 100-1), Jan 2023",
+      "source_url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "effective_date": "2023-01-26",
+      "version": "AI RMF 1.0",
+      "effective_date_note": "NIST AI RMF 1.0 (AI 100-1) released 26 Jan 2023; voluntary framework, no statutory effective date.",
+      "risk_tier": "Voluntary framework",
+      "requirements": [
+        "Govern: establish a culture of AI risk management and accountability.",
+        "Map: establish context and identify risks of the AI system.",
+        "Measure: assess, analyse and track identified risks.",
+        "Manage: prioritise and act on risks; document residual risk.",
+        "Not legally binding, but widely used as the de-facto US benchmark and referenced by procurement."
+      ],
+      "penalty": "None (voluntary). Often expected contractually or by enterprise customers.",
+      "applies": {
+        "jurisdiction": "US-federal"
+      }
+    },
+    {
+      "id": "china-genai-measures",
+      "jurisdiction": "China",
+      "regime": "Interim Measures for Generative AI Services",
+      "citation": "Sheng cheng shi ren gong zhi neng fu wu guan li zan xing ban fa (CAC et al.), effective 2023-08-15",
+      "source_url": "http://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm",
+      "effective_date": "2023-08-15",
+      "effective_date_note": "Interim Measures for the Management of Generative AI Services effective 15 Aug 2023.",
+      "risk_tier": "Generative AI service",
+      "requirements": [
+        "Services with public-opinion or social-mobilisation attributes must complete a security assessment and file the algorithm with the Cyberspace Administration of China (CAC).",
+        "Ensure legality of training data and respect for intellectual property and personal information.",
+        "Label AI-generated content and implement content moderation aligned with applicable rules."
+      ],
+      "penalty": "Rectification orders, suspension of service, and penalties under the CSL/DSL/PIPL framework.",
+      "applies": {
+        "jurisdiction": "China",
+        "all": [
+          {
+            "flag": "is_generative"
+          }
+        ]
+      }
+    },
+    {
+      "id": "china-algo-recommendation",
+      "jurisdiction": "China",
+      "regime": "Provisions on Algorithm-Generated Recommendations",
+      "citation": "Hu lian wang xin xi fu wu suan fa tui jian guan li gui ding (CAC et al.), effective 2022-03-01",
+      "source_url": "http://www.cac.gov.cn/2022-01/04/c_1642894606364259.htm",
+      "effective_date": "2022-03-01",
+      "effective_date_note": "Provisions on the Management of Algorithmic Recommendations effective 1 Mar 2022.",
+      "risk_tier": "Recommendation algorithm",
+      "requirements": [
+        "File recommendation algorithms with public-opinion properties in the CAC algorithm registry.",
+        "Provide users an option to turn off algorithmic recommendation and to manage interest tags.",
+        "No unreasonable differential pricing ('big-data price discrimination') based on user profiles."
+      ],
+      "penalty": "Warnings, rectification, fines and possible suspension under applicable cyber regulations.",
+      "applies": {
+        "jurisdiction": "China",
+        "all": [
+          {
+            "not_flag": "is_generative"
+          }
+        ],
+        "any": [
+          {
+            "flag": "processes_personal_data"
+          },
+          {
+            "use": "credit_or_essential_services"
+          }
+        ]
+      }
+    },
+    {
+      "id": "china-deep-synthesis",
+      "jurisdiction": "China",
+      "regime": "Provisions on Deep Synthesis / AI-content labelling",
+      "citation": "Hu lian wang xin xi fu wu shen du he cheng guan li gui ding (2023-01-10); AI content-labelling measures (2025-09-01)",
+      "source_url": "http://www.cac.gov.cn/2022-12/11/c_1672221949354811.htm",
+      "effective_date": "2023-01-10",
+      "effective_date_note": "Provisions on the Administration of Deep Synthesis effective 10 Jan 2023.",
+      "risk_tier": "Synthetic media",
+      "requirements": [
+        "Conspicuously and machine-readably label deep-synthesis / AI-generated images, audio and video.",
+        "Filing and security-assessment duties for deep-synthesis service providers."
+      ],
+      "penalty": "Rectification and penalties under the cybersecurity and content-management regime.",
+      "applies": {
+        "jurisdiction": "China",
+        "any": [
+          {
+            "flag": "is_generative"
+          },
+          {
+            "use": "biometric"
+          }
+        ]
+      }
+    },
+    {
+      "id": "japan-meti-guidelines",
+      "jurisdiction": "Japan",
+      "regime": "AI Guidelines for Business (soft law) + AI Promotion Act",
+      "citation": "METI/MIC, AI Guidelines for Business Ver. 1.2 (main text, 31 Mar 2026) with Appendix Ver. 1.1 (4 Apr 2025); orig. Ver. 1.0, 19 Apr 2024; Act on the Promotion of Research and Development and the Utilization of AI-Related Technologies (AI Promotion Act), in force 4 Jun 2025",
+      "source_url": "https://www.meti.go.jp/english/press/2024/0419_002.html",
+      "effective_date": "2024-04-19",
+      "version": "Ver1.2 (orig. Ver1.0)",
+      "effective_date_note": "AI Guidelines for Business introduced 19 Apr 2024 (Ver1.0; current main text Ver1.2, 31 Mar 2026); soft law, no statutory penalties.",
+      "risk_tier": "Principle-based guidance (no penalties)",
+      "requirements": [
+        "Apply the 10 common guiding principles: (1) human-centric, (2) safety, (3) fairness, (4) privacy protection, (5) ensuring security, (6) transparency, (7) accountability, (8) education/literacy, (9) ensuring fair competition, (10) innovation.",
+        "Identify your role -- AI developer, AI provider, or AI business user -- and follow the role-specific actions; obligations flow contractually between these actors.",
+        "Conduct agile, risk-based self-governance proportionate to the system's impact, referencing the prior MIC/METI guidelines the document integrates.",
+        "Japan's approach is promotion-oriented: the AI Promotion Act sets national policy and a duty to cooperate but creates no detailed prohibitions; risk is managed through existing laws plus ministry guidelines."
+      ],
+      "penalty": "No direct fines or penalties. The AI Promotion Act relies on government guidance, information requests, and public disclosure of non-compliant businesses ('name and shame'); the AI Strategy Headquarters (chaired by the Prime Minister) coordinates national AI policy.",
+      "applies": {
+        "jurisdiction": "Japan"
+      }
+    }
+  ],
+  "temporal_model_note": "Each obligation carries an `effective_date` (the date it became applicable/enforceable, from primary sources) so audits can be run point-in-time: an audit dated D considers only obligations in force on D, and lists those not yet in force as `pending`. `effective_date_note` records phasing/amendment caveats. Dates are interpretation of published instruments, hand-maintained."
+}

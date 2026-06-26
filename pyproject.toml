@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cross-border-audit"
+version = "0.4.0"
+description = "Regulator-grade AI governance auditor: point-in-time law, signed tamper-evident findings, a pluggable evaluation harness (bias / model probe / privacy / recommender), evidence ingestion with chain of custody, and a warrant gate."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "zl1212-ship-it" }]
+keywords = ["ai-governance", "algorithm-audit", "compliance", "eu-ai-act", "ll144", "bias-audit"]
+
+dependencies = [
+    "pandas>=2.0",
+    "requests>=2.31",
+    "fpdf2>=2.7",
+    "cryptography>=42.0",
+    "anthropic>=0.69",
+]
+
+[project.optional-dependencies]
+ui = ["streamlit>=1.32", "plotly>=5.20"]
+
+[project.scripts]
+cba-audit = "main:main"
+cba-ingest = "ingest:main"
+cba-probe = "probe_model:main"
+cba-safety-probe = "safety_probe:main"
+cba-accuracy-probe = "accuracy_probe:main"
+cba-injection-probe = "injection_probe:main"
+cba-verify = "verify_attestation:main"
+cba-verify-sources = "verify_sources:main"
+
+[tool.setuptools]
+py-modules = [
+    "accuracy_audit", "accuracy_probe", "app", "authority", "bias_audit",
+    "completeness", "engine", "evaluators", "evidence", "fetch_hmda",
+    "fetch_incidents", "incidents", "ingest", "ingestion", "injection_audit",
+    "injection_probe", "main", "model_audit", "model_client", "monitor",
+    "privacy_audit", "probe_model", "recommender_audit", "regulations", "report",
+    "safety_audit", "safety_probe", "sampling", "scale", "verify_attestation",
+    "verify_sources",
+]
+
+[tool.setuptools.package-data]
+"*" = ["data/*.json", "data/*.csv", "data/source_copies/*"]

@@ -1,0 +1,13 @@
+{
+  "_how_to": "For official sources whose servers block automated requests (so verify_sources.py reports UNREACHABLE), save the page from your own browser into this folder and register it here. Map each blocked source_url (exactly as it appears in regulations.json) to the saved file, the date you saved it, and an optional note. Re-run `python verify_sources.py`; it will hash your saved copy and mark the source MANUAL (verified from saved copy). Keys starting with `_` are ignored.",
+  "https://www.nyc.gov/site/dca/about/automated-employment-decision-tools.page": {
+    "file": "DCWP-AEDT-FAQ.pdf",
+    "saved_on": "2026-06-05",
+    "note": "Official DCWP AEDT FAQ (the AEDT page's own guidance), saved from browser; the DCWP site blocks automated requests. The underlying statute is saved alongside as Local-Law-144.pdf."
+  },
+  "https://www.meti.go.jp/english/press/2024/0419_002.html": {
+    "file": "METI-AI-Guidelines-for-Business-v1.2.pdf",
+    "saved_on": "2026-06-06",
+    "note": "METI/MIC AI Guidelines for Business main text, Ver1.2 (provisional English translation, 31 Mar 2026) -- the living document introduced by this 19 Apr 2024 press release (orig. Ver1.0). Downloaded from the METI site via browser; the press-release page itself blocks automated requests. The 167-page Appendix Ver1.1 (4 Apr 2025) is saved alongside as METI-AI-Guidelines-for-Business-Appendix-v1.1.pdf. Verified: the copy contains all 10 guiding principles, the developer/provider/business-user role split, and the agile/risk-based governance approach cited in the obligation."
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "checked_at": "2026-06-07T10:23:26.762675Z",
+  "sources": {
+    "http://www.cac.gov.cn/2022-01/04/c_1642894606364259.htm": {
+      "status": "OK",
+      "http": 200,
+      "sha256": "89aa514b53377b1cda3742f74addddbbc9f44bb2927c9eaf65793f55ce19eda9",
+      "checked_at": "2026-06-07T10:23:26.762675Z",
+      "verified_via": "live fetch"
+    },
+    "http://www.cac.gov.cn/2022-12/11/c_1672221949354811.htm": {
+      "status": "OK",
+      "http": 200,
+      "sha256": "92e2f7b5478f9b32247276c456df0adaafa149f8f9dd8bbc6068f89e9952c0e0",
+      "checked_at": "2026-06-07T10:23:26.762675Z",
+      "verified_via": "live fetch"
+    },
+    "http://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm": {
+      "status": "OK",
+      "http": 200,
+      "sha256": "7fae988c064dde72c95e96e5727bf9abee4b3a5a1ea817606a9ca1f97ffac54b",
+      "checked_at": "2026-06-07T10:23:26.762675Z",
+      "verified_via": "live fetch"
+    },
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689": {
+      "status": "CHANGED",
+      "http": 200,
+      "sha256": "5f17850aae44b074147f3126a63379a917a28f3849e8791e089625f48dc0fe6e",
+      "checked_at": "2026-06-07T10:23:26.762675Z",
+      "verified_via": "live fetch"
+    },
+    "https://leg.colorado.gov/bills/sb24-205": {
+      "status": "CHANGED",
+      "http": 200,
+      "sha256": "489bef6f32da7085b50f97d566400788f6bf2d1350970f1038963bb3318295bf",
+      "checked_at": "2026-06-07T10:23:26.762675Z",
+      "verified_via": "live fetch"
+    },
+    "https://www.meti.go.jp/english/press/2024/0419_002.html": {
+      "status": "MANUAL",
+      "http": null,
+      "checked_at": "2026-06-07T10:23:26.762675Z",
+      "verified_via": "saved local copy",
+      "local_file": "METI-AI-Guidelines-for-Business-v1.2.pdf",
+      "local_sha256": "c54efe34119a1069d2da795d5cb68bffae2227d1c793a6a838f96e9247a5d272",
+      "saved_on": "2026-06-06",
+      "note": "METI/MIC AI Guidelines for Business main text, Ver1.2 (provisional English translation, 31 Mar 2026) -- the living document introduced by this 19 Apr 2024 press release (orig. Ver1.0). Downloaded from the METI site via browser; the press-release page itself blocks automated requests. The 167-page Appendix Ver1.1 (4 Apr 2025) is saved alongside as METI-AI-Guidelines-for-Business-Appendix-v1.1.pdf. Verified: the copy contains all 10 guiding principles, the developer/provider/business-user role split, and the agile/risk-based governance approach cited in the obligation.",
+      "local_copy_changed_since_last_check": false,
+      "live_fetch_error": "[Errno 60] Operation timed out"
+    },
+    "https://www.nist.gov/itl/ai-risk-management-framework": {
+      "status": "CHANGED",
+      "http": 200,
+      "sha256": "c1de486bf23381747064b6c24c5457a31edc7faea08240658f77507ba43b1612",
+      "checked_at": "2026-06-07T10:23:26.762675Z",
+      "verified_via": "live fetch"
+    },
+    "https://www.nyc.gov/site/dca/about/automated-employment-decision-tools.page": {
+      "status": "MANUAL",
+      "http": null,
+      "checked_at": "2026-06-07T10:23:26.762675Z",
+      "verified_via": "saved local copy",
+      "local_file": "DCWP-AEDT-FAQ.pdf",
+      "local_sha256": "1f05401d275099d04b82f0d0070b110bc6d8fa1871ae98185139794d26db60a9",
+      "saved_on": "2026-06-05",
+      "note": "Official DCWP AEDT FAQ (the AEDT page's own guidance), saved from browser; the DCWP site blocks automated requests. The underlying statute is saved alongside as Local-Law-144.pdf.",
+      "local_copy_changed_since_last_check": false,
+      "live_fetch_error": "HTTP Error 403: Forbidden"
+    }
+  }
+}
