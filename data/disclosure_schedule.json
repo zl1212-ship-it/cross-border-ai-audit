@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "note": "Maps each obligation to the evidence an auditor must obtain FROM THE REGULATED ENTITY to verify it -- you cannot govern a large operator from public data alone. Hand-maintained interpretation of each instrument's documentation/record-keeping duties; the official text governs. `kind` drives how ingestion.py validates a submitted artifact. Items keyed under `_model_probe` attach to any system that makes consequential decisions, independent of jurisdiction.",
+  "requirements": {
+    "us-nyc-ll144": [
+      {
+        "id": "ll144-decision-log",
+        "kind": "decision_log",
+        "required": true,
+        "description": "Historical AEDT selection/scoring decisions with sex and race/ethnicity categories, covering the most recent year of use (6 RCNY 5-301; imputed demographics not permitted).",
+        "schema": {"outcome_any": ["outcome", "selected", "decision", "score"], "group_any": ["sex", "race_ethnicity", "race", "derived_sex", "derived_race"]}
+      }
+    ],
+    "eu-aiact-art6-highrisk": [
+      {"id": "eu-art9-rmr", "kind": "document", "required": true,
+       "description": "Risk-management system records (Reg. (EU) 2024/1689, Art. 9)."},
+      {"id": "eu-art10-data-governance", "kind": "document", "required": true,
+       "description": "Data-governance evidence: training/validation/test data provenance, representativeness and error-checking (Art. 10)."},
+      {"id": "eu-art11-techdoc", "kind": "document", "required": true,
+       "description": "Technical documentation per Annex IV (Art. 11)."},
+      {"id": "eu-art12-logs", "kind": "log", "required": true,
+       "description": "Automatically generated event logs over the system's lifetime (Art. 12)."}
+    ],
+    "eu-aiact-gpai": [
+      {"id": "gpai-training-summary", "kind": "document", "required": true,
+       "description": "Sufficiently detailed summary of training content + technical documentation (Art. 53)."},
+      {"id": "gpai-eval-records", "kind": "document", "required": false,
+       "description": "For systemic-risk models: adversarial-testing / evaluation and incident records (Art. 55)."}
+    ],
+    "us-co-sb24-205": [
+      {"id": "co-impact-assessment", "kind": "document", "required": true,
+       "description": "Impact assessment for the high-risk AI system (Colorado AI Act, consequential-decision duties)."}
+    ],
+    "us-federal-nist-rmf": [
+      {"id": "nist-rmf-profile", "kind": "document", "required": false,
+       "description": "NIST AI RMF profile mapping Govern/Map/Measure/Manage functions (voluntary)."}
+    ],
+    "_model_probe": [
+      {"id": "model-access", "kind": "model_access", "required": false,
+       "description": "Live API access (or a frozen response transcript) to the deployed decision model, for correspondence-test probing of the model itself (see probe_model.py)."}
+    ]
+  }
+}
