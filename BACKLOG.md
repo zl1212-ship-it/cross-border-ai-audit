@@ -8,9 +8,6 @@ maintenance, not activity for its own sake — every item here is a real gap.
 Low-risk improvements an automated assistant can implement and open a PR for, gated
 on the test suite staying green. No new legal claims here (those are below).
 
-- [ ] Add `tests/test_bias_audit.py`: unit-test the in-memory four-fifths audit
-  (per-group and intersectional ratios, the `--min-share` rule, the 0.80 threshold)
-  against a small hand-labeled fixture, independent of the streaming/model paths.
 - [ ] Friendlier CLI errors in `main.py`: when a `--group-col` or outcome column is
   missing from the CSV, or the CSV is empty/malformed, fail with a clear message
   naming the columns it did find, instead of a pandas traceback.
@@ -50,3 +47,7 @@ of the project, so these get verified against primary sources by a human.
 
 - [x] 2026-06-26 — Rewrote README, CAPABILITIES, QUICKSTART in a plainer voice;
   corrected the "nothing simulated" overclaim; added repo description + topics.
+- [x] 2026-06-26 — Added `tests/test_bias_audit.py`: 12 unit tests for the in-memory
+  four-fifths audit (per-group rates and ratios, the 0.80 threshold, scoring mode,
+  the intersectional table, the min-share exclusion rule, and degenerate edges).
+  Full suite now 40 passing.
