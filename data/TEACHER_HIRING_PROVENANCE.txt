@@ -1,0 +1,11 @@
+Teacher-hiring demo dataset provenance
+======================================
+SYNTHETIC. Constructed by gen_teacher_hiring.py (seed 20260702); no field data.
+Generated: 2026-07-03T02:35:16.131623+00:00
+Rows   : 2400 applicants, columns outcome (screener pass 1/0), sex,
+         race_ethnicity -- the same schema as data/bias_audit_template.csv.
+Purpose: a runnable district-hiring example for the LL144-style bias
+         audit, with pass rates set so one group's impact ratio falls
+         below the 0.80 four-fifths line and the others do not.
+Every number is reproducible from the seed. Do not cite as evidence
+about any real employer, screener, or applicant population.

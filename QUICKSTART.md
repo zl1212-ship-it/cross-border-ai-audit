@@ -44,6 +44,14 @@ You get per-group and intersectional impact ratios, a PDF report, and a signed
 attestation pinned to your data's SHA-256. Too big for one machine? Use `--bias-stream`
 (bounded memory) or `--bias-sample 5000` (with confidence intervals).
 
+No decision data of your own yet? A synthetic school-district hiring pool ships
+with the repo (see `data/TEACHER_HIRING_PROVENANCE.txt` for what it is and isn't):
+
+```bash
+python main.py --bias-csv data/teacher_hiring_demo.csv \
+  --group-cols sex,race_ethnicity --min-share 0.02 --report district_audit.pdf
+```
+
 ## 4. Audit the model itself (needs `ANTHROPIC_API_KEY`)
 
 ```bash
