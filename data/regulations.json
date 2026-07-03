@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "maintained_note": "Interpretation/trigger logic is hand-maintained by the project. Source URLs are auto-verified by verify_sources.py (see data/source_status.json). This file is the single editable source of truth for obligations; no code change is needed to update a rule.",
-  "last_reviewed": "2026-06-05",
+  "last_reviewed": "2026-07-02",
   "obligations": [
     {
       "id": "eu-aiact-art5-prohibited",
@@ -152,10 +152,10 @@
       "id": "us-co-sb24-205",
       "jurisdiction": "US-CO",
       "regime": "Colorado AI Act (SB 24-205) -- High-risk AI systems",
-      "citation": "Colorado AI Act, Colo. Rev. Stat. Sec. 6-1-1701 et seq. (SB 24-205, 2024). EFFECTIVE-DATE MOVING TARGET: compliance start postponed from 1 Feb 2026 to 30 Jun 2026 by SB 25B-004 (Aug 2025); framework substantially revised by SB 26-189 (signed 14 May 2026, effective 1 Jan 2027). Confirm which regime governs your compliance date.",
+      "citation": "Colorado AI Act (CAIA), Colo. Rev. Stat. Sec. 6-1-1701 et seq. (SB 24-205, 2024). REPEALED before it ever bound anyone: compliance start was postponed from 1 Feb 2026 to 30 Jun 2026 by SB 25B-004 (Aug 2025), then SB 26-189 (signed 14 May 2026) repealed and reenacted the framework as the ADMT Act (effective 1 Jan 2027). The Colorado AG had separately announced it would not enforce the CAIA or successor legislation until rulemaking concludes.",
       "source_url": "https://leg.colorado.gov/bills/sb24-205",
       "effective_date": "2026-06-30",
-      "effective_date_note": "MOVING TARGET: compliance start postponed from 1 Feb 2026 to 30 Jun 2026 by SB 25B-004 (Aug 2025); SB 26-189 (eff. 1 Jan 2027) substantially revises the framework.",
+      "effective_date_note": "Compliance start postponed from 1 Feb 2026 to 30 Jun 2026 by SB 25B-004 (Aug 2025); repealed by SB 26-189 before that date arrived, so the CAIA duties never became enforceable. See us-co-sb26-189 for the successor regime.",
       "risk_tier": "High-risk (consequential decision)",
       "requirements": [
         "Developers and deployers must use reasonable care to avoid algorithmic discrimination in high-risk systems making (or being a substantial factor in) consequential decisions.",
@@ -170,6 +170,52 @@
         "all": [
           {
             "flag": "makes_consequential_decisions"
+          }
+        ],
+        "any": [
+          {
+            "use": "employment"
+          },
+          {
+            "use": "education"
+          },
+          {
+            "use": "credit_or_essential_services"
+          },
+          {
+            "use": "healthcare"
+          }
+        ]
+      },
+      "repealed_date": "2026-05-14",
+      "repealed_note": "Repealed and reenacted by SB 26-189 (signed 14 May 2026, operative provisions effective 1 Jan 2027). Repeal timing recorded as the signing date -- hand-maintained interpretation of the enactment; the AG's April 2026 statement had already suspended enforcement pending rulemaking. Confirm against the enrolled act."
+    },
+    {
+      "id": "us-co-sb26-189",
+      "jurisdiction": "US-CO",
+      "regime": "Colorado ADMT Act (SB 26-189) -- Automated decision-making technology",
+      "citation": "Automated Decision-Making Technology Act (SB 26-189, signed 14 May 2026), repealing and reenacting Colo. Rev. Stat. Sec. 6-1-1701 et seq. (the former CAIA). Effective 1 Jan 2027; AG rulemaking mandated by 1 Jan 2027, including adverse-outcome disclosure specifications that may vary by industry.",
+      "source_url": "https://leg.colorado.gov/bills/sb26-189",
+      "effective_date": "2027-01-01",
+      "effective_date_note": "Operative provisions and AG rulemaking deadline both 1 Jan 2027. Pre-rulemaking public input window ran 15 Jun - 13 Jul 2026; formal rulemaking follows. Encoded from the enrolled bill and contemporaneous analyses; re-verify once AG rules issue.",
+      "risk_tier": "Covered ADMT (consequential decision)",
+      "requirements": [
+        "Developers must give deployers documentation of intended use, known harmful or improper uses, risks and limitations, the categories of personal data used in training, and instructions for implementing human oversight; notify deployers of material updates; retain records at least three years.",
+        "Deployers must tell consumers, before or at the point of interaction, that a covered ADMT is or will be used to render a consequential decision (individual or prominent public notice).",
+        "After an adverse outcome, deployers must within 30 days give the consumer a plain-language description of the decision and the ADMT's role in it, how to access the information used, and the consumer's rights under the Act.",
+        "Consumers may request access to the personal data used, correction of factually incorrect or materially inaccurate data, and meaningful human review and reconsideration of the decision to the extent commercially reasonable; deployers must designate trained personnel with authority to override the ADMT.",
+        "Deployers must retain documentation for at least three years after any consequential decision, including developer materials, the ADMT version used, and any mitigation changes.",
+        "NOTE -- scope change from the repealed CAIA: the duty of care against algorithmic discrimination, annual impact assessments, and risk-management-program requirements were all eliminated; the Act is disclosure- and process-centric. Federal and state anti-discrimination law (e.g., Title VII) continues to apply of its own force."
+      ],
+      "penalty": "Enforced EXCLUSIVELY by the Colorado Attorney General as a deceptive trade practice under the Colorado Consumer Protection Act; no private right of action; up to $20,000 per violation; written notice and 60-day cure for non-knowing violations (cure right expires 1 Jan 2030).",
+      "applies": {
+        "jurisdiction": "US-CO",
+        "all": [
+          {
+            "flag": "makes_consequential_decisions"
+          },
+          {
+            "flag": "processes_personal_data"
           }
         ],
         "any": [
@@ -314,5 +360,5 @@
       }
     }
   ],
-  "temporal_model_note": "Each obligation carries an `effective_date` (the date it became applicable/enforceable, from primary sources) so audits can be run point-in-time: an audit dated D considers only obligations in force on D, and lists those not yet in force as `pending`. `effective_date_note` records phasing/amendment caveats. Dates are interpretation of published instruments, hand-maintained."
+  "temporal_model_note": "Each obligation carries an `effective_date` (the date it became applicable/enforceable, from primary sources) so audits can be run point-in-time: an audit dated D considers only obligations in force on D, and lists those not yet in force as `pending`. `effective_date_note` records phasing/amendment caveats. Dates are interpretation of published instruments, hand-maintained. An obligation may also carry a `repealed_date` (with `repealed_note`): on or after that date it is reported under `repealed`, never as in force -- including the case where the repeal lands before the obligation's own effective date."
 }
