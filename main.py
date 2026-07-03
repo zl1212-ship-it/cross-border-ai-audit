@@ -129,6 +129,12 @@ def main() -> None:
         print(f"\n[not yet in force as of {ob['as_of']}]")
         for p in ob["pending"]:
             print(f"  - [{p['jurisdiction']}] {p['regime']}  (effective {p['effective_date']})")
+    if ob.get("repealed"):
+        print(f"\n[repealed on or before {ob['as_of']}]")
+        for r in ob["repealed"]:
+            print(f"  - [{r['jurisdiction']}] {r['regime']}  (repealed {r['repealed_date']})")
+            if r.get("repealed_note"):
+                print(f"      note: {r['repealed_note']}")
 
     inc = report["incidents"]
     print(f"\nReal in-domain incidents (AI Incident Database, "

@@ -101,11 +101,21 @@ def applicable_obligations(profile: SystemProfile) -> List[Dict]:
 
 def _in_force(obligation: Dict, as_of: str) -> bool:
     """True if the obligation was applicable on `as_of` (ISO date). An obligation
-    with no effective_date is treated as always in force."""
+    with no effective_date is treated as always in force; one with a
+    `repealed_date` on or before `as_of` is no longer in force, even if the
+    repeal landed before the obligation's own effective date (a statute can be
+    repealed before it ever binds anyone -- Colorado's AI Act did exactly that)."""
+    if _repealed(obligation, as_of):
+        return False
     eff = obligation.get("effective_date")
     if not eff:
         return True
     return eff <= as_of
+
+
+def _repealed(obligation: Dict, as_of: str) -> bool:
+    rep = obligation.get("repealed_date")
+    return bool(rep) and rep <= as_of
 
 
 def _source_digest(src: Dict) -> Optional[str]:
@@ -138,6 +148,8 @@ def summarise(profile: SystemProfile, as_of: Optional[str] = None) -> Dict:
             "url": o["source_url"],
             "effective_date": o.get("effective_date"),
             "effective_date_note": o.get("effective_date_note"),
+            "repealed_date": o.get("repealed_date"),
+            "repealed_note": o.get("repealed_note"),
             "requirements": o["requirements"],
             "penalty": o["penalty"],
             "source_verified": src.get("checked_at"),
@@ -147,8 +159,14 @@ def summarise(profile: SystemProfile, as_of: Optional[str] = None) -> Dict:
 
     by_jur: Dict[str, List[Dict]] = {}
     pending: List[Dict] = []
+    repealed: List[Dict] = []
     for o in matched:
-        if _in_force(o, effective_as_of):
+        if _repealed(o, effective_as_of):
+            # Matched the profile but the instrument was repealed on or before
+            # the audit date: reported, not silently dropped, so a reader can
+            # see which regime *used to* (or was about to) bind the system.
+            repealed.append({"jurisdiction": o["jurisdiction"], **_item(o)})
+        elif _in_force(o, effective_as_of):
             by_jur.setdefault(o["jurisdiction"], []).append(_item(o))
         else:
             pending.append({"jurisdiction": o["jurisdiction"], **_item(o)})
@@ -162,9 +180,11 @@ def summarise(profile: SystemProfile, as_of: Optional[str] = None) -> Dict:
         "jurisdictions_checked": profile.jurisdictions,
         "obligation_count": len(in_force),
         "pending_count": len(pending),
+        "repealed_count": len(repealed),
         "prohibited_flags": prohibited,
         "by_jurisdiction": by_jur,
         "pending": pending,
+        "repealed": repealed,
         "rules_last_reviewed": meta.get("last_reviewed"),
         "disclaimer": (
             "Informational compliance-triage only, not legal advice. Trigger logic and "
