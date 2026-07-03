@@ -56,7 +56,11 @@ It's easy to overstate this, so to be precise:
   signal a group are written deliberately; that's how an audit study works — you hold
   the input fixed and vary only the signal. The model's *responses* are real, but the
   prompts are not field data, and the probe is a pre-deployment diagnostic, not the
-  historical-use-data audit a regulator would require.
+  historical-use-data audit a regulator would require. Also constructed: the
+  teacher-hiring demo dataset (`data/teacher_hiring_demo.csv`, from
+  `gen_teacher_hiring.py`) — a synthetic district applicant pool with a deliberate
+  adverse gap on one group, so the demo report shows both a passing and a failing
+  four-fifths test. Its provenance file says so; cite it as evidence of nothing.
 
 So the audits run on real data and real model behavior; the red-team probes use
 constructed inputs. Nothing in a finding is fabricated, but not everything is field
