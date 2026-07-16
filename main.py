@@ -11,6 +11,9 @@ Usage:
 """
 
 import argparse
+import sys
+
+import pandas as pd
 
 from regulations import SystemProfile
 import bias_audit
@@ -19,6 +22,31 @@ import evidence
 import report as report_mod
 import sampling
 import scale
+
+
+def _load_csv_or_exit(path: str, want_cols=(), hint: str = "") -> pd.DataFrame:
+    """Load a user-supplied CSV, exiting with a plain one-line error instead of
+    a pandas traceback when the file is missing, empty, or malformed, or when a
+    column the audit was asked to use is not in it."""
+    try:
+        df = bias_audit.load_csv(path)
+    except FileNotFoundError:
+        sys.exit(f"error: {path}: no such file")
+    except pd.errors.EmptyDataError:
+        sys.exit(f"error: {path}: file is empty (expected a CSV with a header row)")
+    except pd.errors.ParserError as exc:
+        sys.exit(f"error: {path}: could not be parsed as CSV ({exc})")
+    if df.empty:
+        sys.exit(f"error: {path}: has a header but no data rows "
+                 f"(columns found: {', '.join(df.columns)})")
+    missing = [c for c in want_cols if c not in df.columns]
+    if missing:
+        msg = (f"error: {path}: column(s) not found: {', '.join(missing)}\n"
+               f"  columns found: {', '.join(df.columns)}")
+        if hint:
+            msg += f"\n  ({hint})"
+        sys.exit(msg)
+    return df
 
 
 def main() -> None:
@@ -59,9 +87,11 @@ def main() -> None:
     bias_df = bias_outcome = bias_groups = None
     input_hashes = {}
     if args.bias_csv:
-        bias_df = bias_audit.load_csv(args.bias_csv)
         bias_outcome = args.outcome_col
-        bias_groups = args.group_cols.split(",")
+        bias_groups = [c for c in args.group_cols.split(",") if c]
+        bias_df = _load_csv_or_exit(
+            args.bias_csv, [bias_outcome, *bias_groups],
+            hint="use --outcome-col / --group-cols to name the columns in your data")
         # Hash the actual input bytes so the attestation pins the evidence used.
         input_hashes["bias_csv"] = {"file": args.bias_csv,
                                     "sha256": evidence.sha256_file(args.bias_csv)}
@@ -79,13 +109,21 @@ def main() -> None:
                                                 "sha256": evidence.sha256_file(args.injection_audit)}
     privacy_df = quasi = None
     if args.privacy_csv:
-        privacy_df = bias_audit.load_csv(args.privacy_csv)
         quasi = [c for c in args.quasi_cols.split(",") if c]
+        privacy_df = _load_csv_or_exit(
+            args.privacy_csv, quasi,
+            hint="use --quasi-cols to name the quasi-identifier columns in your data")
         input_hashes["privacy_csv"] = {"file": args.privacy_csv,
                                        "sha256": evidence.sha256_file(args.privacy_csv)}
     recommender_df = None
     if args.recommender_csv:
-        recommender_df = bias_audit.load_csv(args.recommender_csv)
+        rec_cols = [args.rec_item_col, args.rec_exposure_col]
+        if args.rec_group_col:
+            rec_cols.append(args.rec_group_col)
+        recommender_df = _load_csv_or_exit(
+            args.recommender_csv, rec_cols,
+            hint="use --rec-item-col / --rec-exposure-col / --rec-group-col "
+                 "to name the columns in your data")
         input_hashes["recommender_csv"] = {"file": args.recommender_csv,
                                            "sha256": evidence.sha256_file(args.recommender_csv)}
 
