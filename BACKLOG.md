@@ -8,9 +8,6 @@ maintenance, not activity for its own sake — every item here is a real gap.
 Low-risk improvements that can land as one small PR each, gated
 on the test suite staying green. No new legal claims here (those are below).
 
-- [ ] Edge-case tests for `bias_audit.py`: a single-category group, an all-pass and
-  an all-fail outcome column, and a group below `--min-share` (should be excluded,
-  not crash).
 - [ ] Add a `--version` flag wired to the package version in `pyproject.toml`.
 - [ ] `CONTRIBUTING.md`: how to run the tests, the "plain voice, cite sources for any
   legal claim" rule, and the safe-vs-needs-verification split from this file.
@@ -42,6 +39,12 @@ of the project, so these get verified against primary sources by a human.
 
 ## Done
 
+- [x] 2026-08-03 — Added `tests/test_bias_audit_edges.py`: 10 edge-case tests for
+  the four-fifths audit (single-category groups, all-pass and all-fail outcome
+  columns in both tables and scoring mode, and the `--min-share` exclusions:
+  excluded rows stay reported but outside the determination, a top-rate category
+  below the share leaves the denominator, everything-excluded is undetermined).
+  No code changes needed; full suite now 62 passing.
 - [x] 2026-07-15 — Friendlier CLI errors in `main.py`: a missing file, an empty or
   malformed CSV, or a missing outcome/group column (also quasi-identifier and
   recommender columns) now exits with a one-line message naming the columns it did
