@@ -21,19 +21,19 @@ ones.
 
 ## What it does
 
-- **Obligations triage** (`regulations.py`) — describe a system's attributes and get
+- **Obligations triage** (`regulations.py`): describe a system's attributes and get
   the statutes it triggers in each jurisdiction, with citations to primary sources.
   Interpreting law is the hard part, so the rules are hand-maintained in
   `data/regulations.json` and labeled as such. `verify_sources.py` fetches each
   cited source, hashes it, and flags any that changed or went dead.
-- **Bias audit** (`bias_audit.py`) — an LL144-style four-fifths impact-ratio audit,
+- **Bias audit** (`bias_audit.py`): an LL144-style four-fifths impact-ratio audit,
   per-group and intersectional, on a CSV of decisions you provide. Exports a PDF.
-- **Model probe** (`probe_model.py`) — a correspondence test: matched prompts that
+- **Model probe** (`probe_model.py`): a correspondence test: matched prompts that
   differ only by a name signaling a group (the classic instrument, cf. Bertrand &
   Mullainathan 2004), run against a live model and frozen to a hashed transcript that
   `model_audit.py` then audits. `probe_education.py` points the same instrument at an
   automated grader.
-- **Incident search** (`incidents.py`) — query a frozen snapshot of the AI Incident
+- **Incident search** (`incidents.py`): query a frozen snapshot of the AI Incident
   Database (~1,500 documented incidents) by domain.
 - A few more checks in the same harness: k-anonymity privacy, recommender exposure
   concentration, LLM safety/refusal, accuracy/hallucination, and prompt-injection
@@ -50,15 +50,15 @@ It's easy to overstate this, so to be precise:
 
 - **Real:** the regulatory encodings (faithful, cited, and auto-checked against the
   official sources), the HMDA mortgage demo data (CFPB, loan-level), the incident
-  snapshot (AI Incident Database, CC BY-SA), and — for the bias audit — whatever real
+  snapshot (AI Incident Database, CC BY-SA), and, for the bias audit, whatever real
   decision data you give it.
 - **Constructed:** the correspondence-test stimuli. The essays and the names that
-  signal a group are written deliberately; that's how an audit study works — you hold
+  signal a group are written deliberately; that's how an audit study works: you hold
   the input fixed and vary only the signal. The model's *responses* are real, but the
   prompts are not field data, and the probe is a pre-deployment diagnostic, not the
   historical-use-data audit a regulator would require. Also constructed: the
   teacher-hiring demo dataset (`data/teacher_hiring_demo.csv`, from
-  `gen_teacher_hiring.py`) — a synthetic district applicant pool with a deliberate
+  `gen_teacher_hiring.py`): a synthetic district applicant pool with a deliberate
   adverse gap on one group, so the demo report shows both a passing and a failing
   four-fifths test. Its provenance file says so; cite it as evidence of nothing.
 
@@ -93,7 +93,7 @@ python main.py --model-audit data/probes/essay_screen.jsonl
 
 ```bash
 pip install pytest
-pytest                                             # 28 tests, all run offline (no API key)
+pytest                                             # 62 tests, all run offline (no API key)
 ```
 
 The four-fifths math, the Merkle commit-then-sample completeness check, the warrant
@@ -126,9 +126,9 @@ There's a fuller tour in [CAPABILITIES.md](CAPABILITIES.md).
 
 ## Status
 
-Early but working: the checks run, the 28 tests pass, and the demo reproduces end to
+Early but working: the checks run, the 62 tests pass, and the demo reproduces end to
 end. The rule base covers the EU AI Act, NYC LL144, Colorado's AI Act, NIST's RMF, and
-China/Japan guidance — accurate as encoded, but a starting set rather than an
+China/Japan guidance: accurate as encoded, but a starting set rather than an
 exhaustive one, and the law keeps shifting (Colorado's effective date alone has moved
 twice). Corrections and additions are welcome.
 
