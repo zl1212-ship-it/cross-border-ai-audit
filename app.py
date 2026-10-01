@@ -6,7 +6,8 @@ Three real-data tools:
   2. LL144 bias audit    -- upload YOUR OWN decision data, get a real four-fifths report.
   3. Incident intelligence -- search the real AI Incident Database by domain.
 
-Nothing is simulated. The bias audit runs only on data you upload.
+The bias audit simulates no records itself. It runs only on data you upload
+or on the bundled HMDA sample of public mortgage decisions.
 """
 
 import pandas as pd

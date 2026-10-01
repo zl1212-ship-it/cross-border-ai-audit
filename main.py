@@ -8,6 +8,11 @@ the LL144 bias audit if you pass a CSV of your own selection decisions.
 Usage:
     python main.py
     python main.py --bias-csv path/to/your_decisions.csv
+    python main.py --tool-name "Your system" --bias-csv path/to/your_decisions.csv
+
+--no-attest skips signing: no key is loaded or created and nothing is appended
+to the evidence ledger. The bundled sample report is built that way:
+    python3 main.py --no-attest --tool-name "HMDA mortgage decisions used as demo data for the NYC LL144 impact-ratio calculation (not an audit of any hiring tool)" --bias-csv data/hmda_demo_sample.csv --group-cols derived_race,derived_sex --min-share 0.02 --report samples/sample_audit_report.pdf
 """
 
 import argparse
@@ -22,6 +27,10 @@ import evidence
 import report as report_mod
 import sampling
 import scale
+
+
+# Neutral default name for the example profile below; override with --tool-name.
+DEFAULT_TOOL_NAME = "Example automated decision system (illustrative profile)"
 
 
 def _load_csv_or_exit(path: str, want_cols=(), hint: str = "") -> pd.DataFrame:
@@ -51,6 +60,11 @@ def _load_csv_or_exit(path: str, want_cols=(), hint: str = "") -> pd.DataFrame:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--tool-name", default=DEFAULT_TOOL_NAME,
+                    help="Name of the system being audited, shown in the output and the PDF report")
+    ap.add_argument("--no-attest", action="store_true",
+                    help="Do not sign this run: no key is loaded or created and nothing is "
+                         "appended to the evidence ledger (for demonstration output)")
     ap.add_argument("--bias-csv", help="CSV of your own selection decisions (outcome + demographic columns)")
     ap.add_argument("--outcome-col", default="outcome")
     ap.add_argument("--group-cols", default="sex,race_ethnicity")
@@ -74,10 +88,11 @@ def main() -> None:
                     help="Audit a random sample of N rows with confidence intervals (for data too big to audit whole)")
     args = ap.parse_args()
 
-    # Example profile: an AI resume screener deployed in the EU, NYC and Colorado.
-    # These are declared attributes of a system, not fabricated records.
+    # Example profile: an automated decision system used in employment and
+    # deployed in the EU, NYC, Colorado and under US federal guidance. These are
+    # declared attributes of a system, not fabricated records.
     profile = SystemProfile(
-        name="AI resume-screening tool",
+        name=args.tool_name,
         use_categories=["employment"],
         jurisdictions=["EU", "US-NYC", "US-CO", "US-federal"],
         makes_consequential_decisions=True,
@@ -145,6 +160,7 @@ def main() -> None:
         recommender_group_col=args.rec_group_col,
         as_of=args.as_of,
         input_hashes=input_hashes,
+        attest=not args.no_attest,
     )
 
     print("=" * 78)
@@ -193,7 +209,15 @@ def main() -> None:
                   f"({'ADVERSE' if g['adverse_impact'] else 'ok'})")
         if args.report:
             meta = report_mod.AuditMeta(tool_name=profile.name, data_source=args.bias_csv)
-            report_mod.save_pdf(ba, args.report, meta, attestation=report.get("attestation"))
+            att = report.get("attestation")
+            not_attested = None if att else {
+                "as_of": ob["as_of"],
+                "profile": (f"{', '.join(profile.use_categories)} use in "
+                            f"{', '.join(profile.jurisdictions)}"),
+                "legal_basis": report["legal_basis"],
+            }
+            report_mod.save_pdf(ba, args.report, meta, attestation=att,
+                                not_attested=not_attested)
             print(f"  report written: {args.report}")
 
     if args.bias_csv and args.bias_stream:
@@ -300,6 +324,9 @@ def main() -> None:
         print(f"  prev    hash   : {att['prev_hash']}")
         print(f"  signature      : {att['signature'][:32]}...  ({att['sig_alg']})")
         print("  verify with: python verify_attestation.py")
+    elif args.no_attest:
+        print("\nAttestation: not attested (--no-attest); no key was used and "
+              "nothing was written to the evidence ledger.")
 
     print("\n" + ob["disclaimer"])
 

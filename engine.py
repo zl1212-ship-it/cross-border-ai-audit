@@ -73,7 +73,10 @@ def audit_system(profile: SystemProfile,
 
     When `attest` is True, the audit is recorded as a signed, hash-chained
     attestation (see evidence.py) and the resulting record is attached under
-    report["attestation"]. `as_of` runs the obligations layer point-in-time.
+    report["attestation"]. When it is False, no key is loaded or created and
+    nothing is written to the ledger. Either way report["legal_basis"] lists the
+    in-force obligations the audit was checked against. `as_of` runs the
+    obligations layer point-in-time.
     """
     report: Dict = {"profile": profile.name}
 
@@ -132,13 +135,17 @@ def audit_system(profile: SystemProfile,
     }
     report["findings_core"] = findings_core
 
+    # The point-in-time legal basis. Kept on the report even when nothing is
+    # signed, so an unsigned report can still state the law it used.
+    report["legal_basis"] = _legal_basis(ob)
+
     # D -- signed, tamper-evident attestation of this finding
     if attest:
         report["attestation"] = evidence.attest(
             subject={"name": profile.name, "profile_sha256": _profile_digest(profile)},
             as_of=ob["as_of"],
             inputs=input_hashes or {},
-            legal_basis=_legal_basis(ob),
+            legal_basis=report["legal_basis"],
             findings=findings_core,
         )
 

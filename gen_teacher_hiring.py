@@ -91,7 +91,7 @@ def main():
         mode="selection", intersectional=True, min_share=0.02)
     meta = report_mod.AuditMeta(
         tool_name="District teacher-applicant screener (SYNTHETIC demo data)",
-        vendor="None -- constructed demo, gen_teacher_hiring.py",
+        vendor="None (constructed demo, gen_teacher_hiring.py)",
         distribution_date="n/a (synthetic)",
         auditor="Demo output; NOT an independent bias audit under LL144",
         data_source="data/teacher_hiring_demo.csv (synthetic, seed %d)" % SEED,

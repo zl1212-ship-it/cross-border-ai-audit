@@ -9,11 +9,20 @@ data itself; it only formats the audit you already ran on your own records.
 """
 
 import datetime
-from dataclasses import dataclass
-from typing import Dict, Optional
+from dataclasses import dataclass, replace
+from typing import Dict, List, Optional
 
 from fpdf import FPDF
 from fpdf.enums import XPos, YPos
+
+
+DEFAULT_REPORT_TITLE = "Automated Employment Decision Tool: Bias Audit Summary"
+
+# Wording used when a report is generated without attestation (demonstration
+# output): it must not read like a signed, independent bias audit.
+NOT_ATTESTED_TITLE = "Bias Audit Summary (demonstration, not attested)"
+NOT_ATTESTED_TOOL_LABEL = "System audited"
+NOT_ATTESTED_AUDITOR = "None (demonstration output, not an independent bias audit)"
 
 
 @dataclass
@@ -26,7 +35,7 @@ class AuditMeta:
     audit_date: str = datetime.date.today().isoformat()
     # Header title and the metadata label for the audited system. Default to the
     # employment (LL144/AEDT) framing; override for other domains, e.g. education.
-    report_title: str = "Automated Employment Decision Tool -- Bias Audit Summary"
+    report_title: str = DEFAULT_REPORT_TITLE
     tool_label: str = "AEDT / tool"
 
 
@@ -38,8 +47,7 @@ def _ascii(s) -> str:
 class _Report(FPDF):
     def header(self):
         self.set_font("Helvetica", "B", 14)
-        self.cell(0, 9, _ascii(getattr(self, "report_title",
-                  "Automated Employment Decision Tool -- Bias Audit Summary")), ln=1)
+        self.cell(0, 9, _ascii(getattr(self, "report_title", DEFAULT_REPORT_TITLE)), ln=1)
         self.set_draw_color(37, 99, 235)
         self.set_line_width(0.6)
         self.line(self.l_margin, self.get_y(), self.w - self.r_margin, self.get_y())
@@ -67,7 +75,7 @@ def _group_table(pdf: _Report, group: Dict):
     pdf.ln(1)
     pdf.set_font("Helvetica", "B", 10)
     label = group["group"]
-    flag = " -- POTENTIAL ADVERSE IMPACT" if group.get("adverse_impact") else ""
+    flag = "  [POTENTIAL ADVERSE IMPACT]" if group.get("adverse_impact") else ""
     pdf.set_text_color(220, 38, 38) if group.get("adverse_impact") else pdf.set_text_color(15, 23, 42)
     pdf.cell(0, 7, _ascii(f"{label}  (min impact ratio: {group.get('min_impact_ratio')}){flag}"), ln=1)
     pdf.set_text_color(15, 23, 42)
@@ -142,32 +150,78 @@ def _attestation_section(pdf: "_Report", att: Dict, compact: bool = False):
     _kv(pdf, "Signature", att["signature"])
     _kv(pdf, "Public key", att["pubkey"] + f"  ({att['sig_alg']})")
 
-    basis = att.get("legal_basis") or []
-    if basis:
-        pdf.ln(1)
-        pdf.set_font("Helvetica", "B", 9)
-        pdf.cell(0, 6, _ascii("Legal basis (point-in-time, source-hashed)"), ln=1)
-        headers = ["Obligation", "Effective", "Src", "Source SHA-256 (12)"]
-        widths = [78, 26, 18, 50]
-        pdf.set_font("Helvetica", "B", 8)
-        pdf.set_fill_color(241, 245, 249)
-        for h, w in zip(headers, widths):
-            pdf.cell(w, 6, _ascii(h), border=1, fill=True)
+    _legal_basis_table(pdf, att.get("legal_basis") or [])
+
+
+def _legal_basis_table(pdf: "_Report", basis: List[Dict]):
+    """Render the point-in-time legal basis (one row per in-force obligation).
+    Shared by the attested and the not-attested blocks."""
+    if not basis:
+        return
+    pdf.ln(1)
+    pdf.set_font("Helvetica", "B", 9)
+    pdf.cell(0, 6, _ascii("Legal basis (point-in-time, source-hashed)"), ln=1)
+    headers = ["Obligation", "Effective", "Src", "Source SHA-256 (12)"]
+    widths = [78, 26, 18, 50]
+    pdf.set_font("Helvetica", "B", 8)
+    pdf.set_fill_color(241, 245, 249)
+    for h, w in zip(headers, widths):
+        pdf.cell(w, 6, _ascii(h), border=1, fill=True)
+    pdf.ln()
+    pdf.set_font("Helvetica", "", 7)
+    for b in basis:
+        digest = (b.get("source_sha256") or "-")[:12]
+        cells = [b["id"], str(b.get("effective_date") or "-"),
+                 str(b.get("source_status") or "-"), digest]
+        for c, w in zip(cells, widths):
+            pdf.cell(w, 5.5, _ascii(c), border=1)
         pdf.ln()
-        pdf.set_font("Helvetica", "", 7)
-        for b in basis:
-            digest = (b.get("source_sha256") or "-")[:12]
-            cells = [b["id"], str(b.get("effective_date") or "-"),
-                     str(b.get("source_status") or "-"), digest]
-            for c, w in zip(cells, widths):
-                pdf.cell(w, 5.5, _ascii(c), border=1)
-            pdf.ln()
+
+
+def _not_attested_section(pdf: "_Report", ctx: Dict):
+    """Render the block that replaces the attestation for demonstration output.
+
+    ctx: {"as_of": ISO date, "profile": short description of the declared
+    profile, "legal_basis": list as in engine.audit_system's report}.
+    """
+    pdf.ln(3)
+    pdf.set_draw_color(37, 99, 235)
+    pdf.set_line_width(0.4)
+    pdf.line(pdf.l_margin, pdf.get_y(), pdf.w - pdf.r_margin, pdf.get_y())
+    pdf.ln(2)
+    pdf.set_font("Helvetica", "B", 10)
+    pdf.cell(0, 6, _ascii("Evidence & attestation: NOT ATTESTED (demonstration only)"), ln=1)
+    pdf.set_font("Helvetica", "", 8)
+    pdf.multi_cell(0, 4.5, _ascii(
+        "This output was generated without attestation. No ledger record was written, so "
+        "there is no record hash, signature or public key to verify for it. The declared "
+        "profile and the legal basis it was checked against are listed for reference only."
+    ))
+    pdf.ln(1)
+    _kv(pdf, "Audited as of", ctx.get("as_of") or "-")
+    _kv(pdf, "Declared profile", ctx.get("profile") or "-")
+    _legal_basis_table(pdf, ctx.get("legal_basis") or [])
 
 
 def build_pdf(audit: Dict, meta: Optional[AuditMeta] = None,
               attestation: Optional[Dict] = None,
-              compact_attestation: bool = False) -> bytes:
+              compact_attestation: bool = False,
+              not_attested: Optional[Dict] = None) -> bytes:
+    """Build the report PDF.
+
+    attestation: a signed ledger record to print as the evidence block.
+    not_attested: for demonstration output that was deliberately not signed
+        ({"as_of", "profile", "legal_basis"}); prints a NOT ATTESTED block in
+        place of the attestation and relabels the title, system and auditor
+        fields so the page does not read like an independent bias audit.
+    """
+    if attestation and not_attested:
+        raise ValueError("pass either attestation or not_attested, not both")
     meta = meta or AuditMeta()
+    if not_attested is not None:
+        meta = replace(meta, report_title=NOT_ATTESTED_TITLE,
+                       tool_label=NOT_ATTESTED_TOOL_LABEL,
+                       auditor=NOT_ATTESTED_AUDITOR)
     pdf = _Report()
     pdf.report_title = meta.report_title   # read by header(), set before add_page()
     pdf.set_auto_page_break(auto=True, margin=18)
@@ -219,6 +273,8 @@ def build_pdf(audit: Dict, meta: Optional[AuditMeta] = None,
 
     if attestation:
         _attestation_section(pdf, attestation, compact=compact_attestation)
+    elif not_attested is not None:
+        _not_attested_section(pdf, not_attested)
 
     out = pdf.output()
     return bytes(out)
@@ -226,7 +282,8 @@ def build_pdf(audit: Dict, meta: Optional[AuditMeta] = None,
 
 def save_pdf(audit: Dict, path: str, meta: Optional[AuditMeta] = None,
              attestation: Optional[Dict] = None,
-             compact_attestation: bool = False) -> str:
+             compact_attestation: bool = False,
+             not_attested: Optional[Dict] = None) -> str:
     with open(path, "wb") as f:
-        f.write(build_pdf(audit, meta, attestation, compact_attestation))
+        f.write(build_pdf(audit, meta, attestation, compact_attestation, not_attested))
     return path

@@ -124,7 +124,7 @@ def run_bias_audit(df: pd.DataFrame, outcome_col: str, group_cols: List[str],
         "note": (
             "An impact ratio below 0.80 flags potential adverse impact and warrants further "
             "review; it is descriptive and is not by itself proof of unlawful discrimination. "
-            "Computed only on the data provided; nothing is simulated."
+            "Computed only on the data provided; the audit itself simulates no records."
         ),
     }
 
