@@ -24,6 +24,7 @@ authority is itself logged (`unauthorized_access_attempt`).
 import argparse
 
 import authority
+import evidence
 import ingestion
 from regulations import SystemProfile
 
@@ -71,6 +72,12 @@ def main() -> None:
 
     sub.add_parser("coverage", help="Show satisfied vs. outstanding evidence + warrants.")
     args = ap.parse_args()
+
+    if args.cmd in ("authorize", "serve", "revoke", "submit"):
+        try:
+            evidence.check_can_attest()
+        except evidence.KeyMismatchError as exc:
+            raise SystemExit(f"error: {exc}")
 
     if args.cmd == "request":
         req = ingestion.build_request(_PROFILE, as_of=args.as_of)

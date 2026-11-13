@@ -142,6 +142,12 @@ def main() -> None:
         input_hashes["recommender_csv"] = {"file": args.recommender_csv,
                                            "sha256": evidence.sha256_file(args.recommender_csv)}
 
+    if not args.no_attest:
+        try:
+            evidence.check_can_attest()
+        except evidence.KeyMismatchError as exc:
+            sys.exit(f"error: {exc}")
+
     report = engine.audit_system(
         profile,
         bias_data=bias_df,
