@@ -66,8 +66,8 @@ lets you audit a sized random sample and state the uncertainty.
 
 ## What's real, and what I won't claim
 
-- The regulatory encodings are faithful and cited, and auto-checked against the live
-  sources. The demo data is real (CFPB HMDA, the AI Incident Database). The bias audit
+- Each regulatory entry cites its primary source, and the source links were last checked
+  with `verify_sources.py` on 2026-06-07. The demo data is real (CFPB HMDA, the AI Incident Database). The bias audit
   runs on whatever real data you provide. The model probes record a real model's actual
   responses.
 - The correspondence-test stimuli are constructed on purpose (made-up essays, names
@@ -86,7 +86,8 @@ to plug in if real access and authority exist — not a substitute for them.
 
 ## Status
 
-Seven-check harness, 28 unit tests passing (offline, no API key), pip-installable with
-`cba-*` commands, and a demo that reproduces the full chain — authorization, custody,
-point-in-time obligations, a real HMDA bias finding, and independent verification —
-end to end. Early, and the rule base will keep needing updates as the law moves.
+Seven-check harness, 67 unit tests passing (offline, no API key), and a demo that
+reproduces the full chain end to end: authorization, custody, point-in-time obligations,
+a four-fifths calculation on real HMDA mortgage data (demonstration output), and
+independent verification. Early, and the rule base will keep needing updates as the law
+moves.

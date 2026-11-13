@@ -48,10 +48,10 @@ and Ed25519-signed so a third party can confirm the finding hasn't moved.
 
 It's easy to overstate this, so to be precise:
 
-- **Real:** the regulatory encodings (faithful, cited, and auto-checked against the
-  official sources), the HMDA mortgage demo data (CFPB, loan-level), the incident
-  snapshot (AI Incident Database, CC BY-SA), and, for the bias audit, whatever real
-  decision data you give it.
+- **Real:** the regulatory encodings (each entry cites its primary source, and the
+  source links were last checked with `verify_sources.py` on 2026-06-07), the HMDA
+  mortgage demo data (CFPB, loan-level), the incident snapshot (AI Incident Database, CC
+  BY-SA), and, for the bias audit, whatever real decision data you give it.
 - **Constructed:** the correspondence-test stimuli. The essays and the names that
   signal a group are written deliberately; that's how an audit study works: you hold
   the input fixed and vary only the signal. The model's *responses* are real, but the
@@ -97,7 +97,7 @@ a ledger of your own (that is what `demo.sh` does).
 
 ```bash
 pip install pytest
-pytest                                             # 62 tests, all run offline (no API key)
+pytest                                             # 67 tests, all run offline (no API key)
 ```
 
 The four-fifths math, the Merkle commit-then-sample completeness check, the warrant
@@ -130,11 +130,11 @@ There's a fuller tour in [CAPABILITIES.md](CAPABILITIES.md).
 
 ## Status
 
-Early but working: the checks run, the 62 tests pass, and the demo reproduces end to
+Early but working: the checks run, the 67 tests pass, and the demo reproduces end to
 end. The rule base covers the EU AI Act, NYC LL144, Colorado's ADMT Act (SB 26-189,
 which replaced its AI Act before that law took effect), NIST's RMF, and China/Japan
-guidance: accurate as encoded, but a starting set rather than an exhaustive one, and the
-law keeps shifting (in 2026 the EU moved its high-risk dates to December 2027 and August
-2028). Corrections and additions are welcome.
+guidance: encoded from the cited primary sources, but a starting set rather than an
+exhaustive one, and the law keeps shifting (in 2026 the EU moved its high-risk dates to
+December 2027 and August 2028). Corrections and additions are welcome.
 
 GPLv3. Built and maintained by Yuxia Liang.

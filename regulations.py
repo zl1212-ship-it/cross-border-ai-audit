@@ -3,7 +3,7 @@ Cross-border AI regulatory knowledge base (data-driven).
 
 Obligations live in data/regulations.json so a rule can be edited, added, or
 removed WITHOUT touching code. Each obligation cites a primary source; the URLs
-are auto-verified by verify_sources.py, which writes data/source_status.json
+are checked by verify_sources.py, which writes data/source_status.json
 (HTTP status + content hash + timestamp). This module merges that status into
 every report, so each obligation carries a "last verified" provenance.
 
@@ -188,7 +188,7 @@ def summarise(profile: SystemProfile, as_of: Optional[str] = None) -> Dict:
         "rules_last_reviewed": meta.get("last_reviewed"),
         "disclaimer": (
             "Informational compliance-triage only, not legal advice. Trigger logic and "
-            "effective dates are hand-maintained; source URLs are auto-verified (see "
+            "effective dates are hand-maintained; source URLs are checked by verify_sources.py (see "
             "data/source_status.json). The official text of each cited instrument governs; "
             "verify and consult counsel."
         ),
