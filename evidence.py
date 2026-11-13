@@ -99,7 +99,42 @@ def sha256_file(path: str) -> str:
 # Signing key (Ed25519). Private key stays local; public key is published.
 # --------------------------------------------------------------------------
 
+class KeyMismatchError(RuntimeError):
+    """This ledger was published with a key that is not the local signing key."""
+
+
+def _published_pubkey() -> Optional[str]:
+    if not os.path.exists(_PUBFILE):
+        return None
+    with open(_PUBFILE, encoding="utf-8") as f:
+        return f.read().strip() or None
+
+
+def _ledger_has_records() -> bool:
+    return os.path.exists(_LEDGER) and os.path.getsize(_LEDGER) > 0
+
+
+def check_can_attest() -> None:
+    """Raise KeyMismatchError if a new record here would be signed with a key other
+    than the published one (it would then fail verification). A fresh or empty
+    ledger can take a new key; a ledger that already has records cannot."""
+    published = _published_pubkey()
+    if not published or not _ledger_has_records():
+        return
+    local = None
+    if os.path.exists(_KEYFILE):
+        with open(_KEYFILE, "rb") as f:
+            local = _pubkey_hex(serialization.load_pem_private_key(f.read(), password=None))
+    if local != published:
+        raise KeyMismatchError(
+            f"the ledger in {_STATE_DIR} is signed with the key published in "
+            f"{os.path.basename(_PUBFILE)}, and this machine does not hold that key, so a "
+            "new record could not be verified. Run with --no-attest, or set CBA_STATE_DIR "
+            "to an empty folder to keep a ledger of your own.")
+
+
 def _load_or_create_key() -> Ed25519PrivateKey:
+    check_can_attest()
     if os.path.exists(_KEYFILE):
         with open(_KEYFILE, "rb") as f:
             key = serialization.load_pem_private_key(f.read(), password=None)
@@ -239,12 +274,20 @@ def verify_record(record: Dict, expected_prev: str) -> List[str]:
             f"found {str(record.get('prev_hash'))[:12]}... (chain reordered/truncated)"
         )
 
-    try:
-        pub = Ed25519PublicKey.from_public_bytes(bytes.fromhex(record["pubkey"]))
-        pub.verify(bytes.fromhex(record["signature"]),
-                   bytes.fromhex(record["record_hash"]))
-    except (InvalidSignature, KeyError, ValueError):
-        problems.append("signature does not verify against the published key")
+    # Verify against the published key, not the key a record names for itself:
+    # otherwise a ledger re-signed with any new key would still pass.
+    published = _published_pubkey()
+    if published is None:
+        problems.append("no published key on file to verify against")
+    else:
+        if record.get("pubkey") != published:
+            problems.append("record names a key other than the published one")
+        try:
+            pub = Ed25519PublicKey.from_public_bytes(bytes.fromhex(published))
+            pub.verify(bytes.fromhex(record["signature"]),
+                       bytes.fromhex(record["record_hash"]))
+        except (InvalidSignature, KeyError, ValueError, TypeError):
+            problems.append("signature does not verify against the published key")
 
     return problems
 

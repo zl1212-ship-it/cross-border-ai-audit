@@ -39,10 +39,10 @@ ones.
   concentration, LLM safety/refusal, accuracy/hallucination, and prompt-injection
   robustness.
 
-Every run is recorded as a point-in-time, signed attestation: the law as it stood on
-a given date, hash-chained so any later edit shows, and Ed25519-signed so a third
-party can confirm the finding hasn't moved. `verify_attestation.py` checks the whole
-chain.
+Unless you pass `--no-attest`, each run is recorded as a point-in-time, signed
+attestation: the law as it stood on a given date, hash-chained so any later edit shows,
+and Ed25519-signed so a third party can confirm the finding hasn't moved.
+`verify_attestation.py` checks the whole chain against the published key.
 
 ## What's real and what's constructed
 
@@ -88,6 +88,10 @@ export ANTHROPIC_API_KEY=...                        # the model probes call a re
 python probe_education.py --model claude-opus-4-8 --repeats 2
 python main.py --model-audit data/probes/essay_screen.jsonl
 ```
+
+These attest into the ledger in `data/` by default. That ledger is signed with my published
+key, so on a fresh clone add `--no-attest`, or set `CBA_STATE_DIR` to an empty folder to keep
+a ledger of your own (that is what `demo.sh` does).
 
 ## Tests
 

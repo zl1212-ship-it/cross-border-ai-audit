@@ -31,6 +31,10 @@ python main.py --as-of 2026-09-01
 Shows the statutes in force on that date across the EU, NYC, Colorado, and US-federal,
 with not-yet-in-force duties listed separately.
 
+Commands like this one attest into the ledger in `data/` by default. That ledger is signed
+with the published key, which a fresh clone does not hold, so add `--no-attest`, or set
+`CBA_STATE_DIR` to an empty folder to keep a ledger of your own.
+
 ## 3. Audit your own decision data (NYC LL144 four-fifths)
 
 Your CSV needs an outcome column (1/0) and one or more demographic columns:
