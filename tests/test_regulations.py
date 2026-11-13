@@ -64,6 +64,29 @@ def test_admta_pending_then_in_force():
     print("ADMTA pending on 2026-09-01, in force on 2027-02-01, OK")
 
 
+def _eu_hiring_profile():
+    # The same screener deployed in the EU: an Annex III employment use.
+    return SystemProfile(
+        name="teacher hiring screener",
+        use_categories=["employment", "education"],
+        jurisdictions=["EU"],
+        makes_consequential_decisions=True,
+        processes_personal_data=True,
+    )
+
+
+def test_eu_high_risk_follows_the_omnibus_dates():
+    # Regulation (EU) 2026/1744 moved the Annex III duties from 2 Aug 2026 to
+    # 2 Dec 2027, so they are pending in between and in force from that day.
+    rep = regulations.summarise(_eu_hiring_profile(), as_of="2026-09-01")
+    assert "eu-aiact-art6-highrisk" in _ids(rep["pending"])
+    assert "eu-aiact-art6-highrisk" not in _ids(sum(rep["by_jurisdiction"].values(), []))
+
+    rep_after = regulations.summarise(_eu_hiring_profile(), as_of="2027-12-02")
+    assert "eu-aiact-art6-highrisk" in _ids(sum(rep_after["by_jurisdiction"].values(), []))
+    print("EU high-risk pending on 2026-09-01, in force on 2027-12-02, OK")
+
+
 def test_repealed_items_carry_provenance():
     rep = regulations.summarise(_co_hiring_profile(), as_of="2026-09-01")
     caia = [o for o in rep["repealed"] if o["id"] == "us-co-sb24-205"][0]
@@ -76,5 +99,6 @@ if __name__ == "__main__":
     test_caia_pending_before_repeal()
     test_caia_repealed_never_in_force()
     test_admta_pending_then_in_force()
+    test_eu_high_risk_follows_the_omnibus_dates()
     test_repealed_items_carry_provenance()
     print("all regulations tests passed")
