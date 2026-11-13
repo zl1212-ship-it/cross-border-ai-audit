@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "maintained_note": "Interpretation/trigger logic is hand-maintained by the project. Source URLs are auto-verified by verify_sources.py (see data/source_status.json). This file is the single editable source of truth for obligations; no code change is needed to update a rule.",
+  "maintained_note": "Interpretation/trigger logic is hand-maintained by the project. Source URLs are checked by verify_sources.py (results and dates in data/source_status.json). This file is the single editable source of truth for obligations; no code change is needed to update a rule.",
   "last_reviewed": "2026-07-02",
   "obligations": [
     {
