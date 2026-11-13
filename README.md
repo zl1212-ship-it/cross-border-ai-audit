@@ -3,7 +3,7 @@
 I built this to answer three questions about an automated decision system, and to
 leave a trail someone else can check:
 
-1. Which AI laws actually bind it (EU AI Act, NYC Local Law 144, Colorado's AI Act,
+1. Which AI laws actually bind it (EU AI Act, NYC Local Law 144, Colorado's ADMT Act,
    and a few others)?
 2. Does it treat protected groups differently?
 3. Can an outsider confirm the finding without taking my word for it?
@@ -127,9 +127,10 @@ There's a fuller tour in [CAPABILITIES.md](CAPABILITIES.md).
 ## Status
 
 Early but working: the checks run, the 62 tests pass, and the demo reproduces end to
-end. The rule base covers the EU AI Act, NYC LL144, Colorado's AI Act, NIST's RMF, and
-China/Japan guidance: accurate as encoded, but a starting set rather than an
-exhaustive one, and the law keeps shifting (Colorado's effective date alone has moved
-twice). Corrections and additions are welcome.
+end. The rule base covers the EU AI Act, NYC LL144, Colorado's ADMT Act (SB 26-189,
+which replaced its AI Act before that law took effect), NIST's RMF, and China/Japan
+guidance: accurate as encoded, but a starting set rather than an exhaustive one, and the
+law keeps shifting (in 2026 the EU moved its high-risk dates to December 2027 and August
+2028). Corrections and additions are welcome.
 
 GPLv3. Built and maintained by Yuxia Liang.

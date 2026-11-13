@@ -32,10 +32,10 @@
       "id": "eu-aiact-art6-highrisk",
       "jurisdiction": "EU",
       "regime": "EU AI Act -- High-risk system (Article 6, Annex III)",
-      "citation": "Regulation (EU) 2024/1689, Art. 6 and Annex III",
+      "citation": "Regulation (EU) 2024/1689, Art. 6 and Annex III, as amended by Regulation (EU) 2026/1744",
       "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
-      "effective_date": "2026-08-02",
-      "effective_date_note": "Annex III high-risk obligations apply from 2 Aug 2026 (24 months after entry into force); Annex I from 2 Aug 2027.",
+      "effective_date": "2027-12-02",
+      "effective_date_note": "Annex III high-risk obligations apply from 2 Dec 2027 and Annex I from 2 Aug 2028, under the Digital Omnibus on AI (Regulation (EU) 2026/1744, published 24 Jul 2026, in force 27 Jul 2026). The original dates were 2 Aug 2026 and 2 Aug 2027.",
       "risk_tier": "High-risk",
       "requirements": [
         "Establish and maintain a risk-management system (Art. 9).",
@@ -78,7 +78,7 @@
       "citation": "Regulation (EU) 2024/1689, Art. 50",
       "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
       "effective_date": "2026-08-02",
-      "effective_date_note": "Art. 50 transparency duties apply from 2 Aug 2026 (24 months after entry into force).",
+      "effective_date_note": "Art. 50 transparency duties apply from 2 Aug 2026 (24 months after entry into force). Regulation (EU) 2026/1744 adds a four-month transition for the Art. 50(2) marking duty for systems already on the market before that date.",
       "risk_tier": "Limited risk (transparency)",
       "requirements": [
         "Inform natural persons that they are interacting with an AI system, unless obvious (Art. 50(1)).",
