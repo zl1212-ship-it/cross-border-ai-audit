@@ -12,6 +12,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.13"]
 
     steps:
       - name: Checkout repository modules
@@ -20,15 +23,19 @@ jobs:
       - name: Set up Python environment
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: ${{ matrix.python-version }}
 
       - name: Install hardened dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest
 
       - name: Compile check
-        run: python -m py_compile regulations.py bias_audit.py incidents.py engine.py main.py app.py fetch_incidents.py
+        run: python -m compileall -q .
+
+      - name: Run tests
+        run: python -m pytest -q
 
       - name: Run audit demo
-        run: python main.py
+        run: python main.py --no-attest
